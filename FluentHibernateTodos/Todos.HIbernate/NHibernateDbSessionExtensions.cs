@@ -43,10 +43,10 @@ namespace Todos.HIbernate {
             #region Method 3 To Create Session Factory - One Liner
             var sessionFactory = Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2012
-                .ConnectionString(connectionString)
+                .ConnectionString("DefaultConnection")
                 .ShowSql())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<NHibernateDbSession>())
-                .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
+                .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(true, true))
                 .BuildSessionFactory();
             #endregion
 
