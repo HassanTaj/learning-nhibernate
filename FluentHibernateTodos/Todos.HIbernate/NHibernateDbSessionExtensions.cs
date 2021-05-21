@@ -15,6 +15,14 @@ using System.Reflection;
 namespace Todos.HIbernate {
     public static class NHibernateDbSessionExtensions {
         public static IServiceCollection AddNHibernate(this IServiceCollection services, string connectionString) {
+            /** Note:
+             *   Note as of the writing of this comment
+             *   nhibernate doesn't support creating 
+             *   Neither NHibernate nor FNH create the database itself.
+             *   You have to provide either code or a precreated database yourself.But it can create the tables for you.
+             *   The class doing this is call SchemaExport.In Fluent, it looks like this:
+             */
+
             #region Method 1 To create Session Factory
             //var mapper = new ModelMapper();
             //mapper.AddMappings(typeof(NHibernateDbSessionExtensions).Assembly.ExportedTypes);
@@ -47,6 +55,7 @@ namespace Todos.HIbernate {
                 .ShowSql())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<NHibernateDbSession>())
                 .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(true, true))
+                //.ExposeConfiguration(cfg => new SchemaExport(cfg).Execute(true, true, false))
                 .BuildSessionFactory();
             #endregion
 
